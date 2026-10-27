@@ -26,7 +26,6 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
 
   render() {
     if (this.state.hasError) {
-      // Custom fallback or default error UI
       if (this.props.fallback) {
         return this.props.fallback;
       }
@@ -36,7 +35,7 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
           style={{
             padding: '2rem',
             textAlign: 'center',
-            color: '#ffffff',
+            color: '#0a0a0a',
             fontFamily: "'Space Mono', monospace",
             fontSize: '14px',
             minHeight: '100vh',
@@ -44,20 +43,20 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#000000',
+            backgroundColor: '#f5f2ed',
           }}
         >
           <h1 style={{ fontSize: '1.5rem', marginBottom: '1rem', fontWeight: 400 }}>
             Something went wrong.
           </h1>
-          <p style={{ color: '#888888', marginBottom: '2rem', maxWidth: '400px' }}>
+          <p style={{ color: '#555555', marginBottom: '2rem', maxWidth: '400px' }}>
             The portfolio encountered an error. Please try refreshing the page or using a different browser.
           </p>
           <button
             onClick={() => window.location.reload()}
             style={{
               padding: '0.75rem 1.5rem',
-              backgroundColor: '#0066ff',
+              backgroundColor: '#0055ff',
               color: '#ffffff',
               border: 'none',
               borderRadius: '4px',

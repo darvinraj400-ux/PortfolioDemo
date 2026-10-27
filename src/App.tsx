@@ -18,13 +18,10 @@ export default function App() {
     setIsLoaded(true);
   }, []);
 
-  // Track active section based on scroll position
   useEffect(() => {
     if (!isLoaded) return;
 
-    // Check if IntersectionObserver is available
     if (typeof IntersectionObserver === 'undefined') {
-      // Fallback: just set active section to 'hero'
       return;
     }
 
@@ -52,11 +49,9 @@ export default function App() {
   const handleNavigate = useCallback((section: string) => {
     const el = document.getElementById(section);
     if (el) {
-      // Check if smooth scroll is supported
       if ('scrollBehavior' in document.documentElement.style) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
-        // Fallback for older browsers
         el.scrollIntoView(true);
       }
     }
@@ -64,19 +59,19 @@ export default function App() {
 
   return (
     <ErrorBoundary>
-      <div className="grain-overlay relative min-h-screen bg-black text-white">
+      <div className="grain-overlay relative min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]">
         {/* Loading screen */}
         {!isLoaded && <Loader onComplete={handleLoadComplete} />}
 
-        {/* Custom cursor - desktop only, wrapped in error boundary */}
+        {/* Custom cursor */}
         <ErrorBoundary fallback={null}>
           <CustomCursor />
         </ErrorBoundary>
 
         {/* Navigation */}
         <ErrorBoundary fallback={
-          <nav className="fixed top-0 left-0 right-0 z-50 bg-black px-5 py-4">
-            <span className="font-mono text-sm text-white">AM.</span>
+          <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg-primary)] px-5 py-4">
+            <span className="font-mono text-sm text-[var(--color-text-primary)]">AM.</span>
           </nav>
         }>
           <Navigation onNavigate={handleNavigate} activeSection={activeSection} />
@@ -92,7 +87,7 @@ export default function App() {
         >
           <ErrorBoundary fallback={
             <section className="min-h-screen flex items-center justify-center px-5">
-              <p className="text-white/50 font-mono text-sm">Content failed to load. Please refresh.</p>
+              <p className="text-[var(--color-text-muted)] font-mono text-sm">Content failed to load. Please refresh.</p>
             </section>
           }>
             <Hero />
@@ -102,7 +97,7 @@ export default function App() {
           
           <ErrorBoundary fallback={
             <section className="px-5 py-20">
-              <p className="text-white/50 font-mono text-sm">Projects failed to load.</p>
+              <p className="text-[var(--color-text-muted)] font-mono text-sm">Projects failed to load.</p>
             </section>
           }>
             <ProjectArchive />
@@ -112,7 +107,7 @@ export default function App() {
           
           <ErrorBoundary fallback={
             <section className="px-5 py-20">
-              <p className="text-white/50 font-mono text-sm">About section failed to load.</p>
+              <p className="text-[var(--color-text-muted)] font-mono text-sm">About section failed to load.</p>
             </section>
           }>
             <About />
@@ -122,7 +117,7 @@ export default function App() {
           
           <ErrorBoundary fallback={
             <section className="px-5 py-20">
-              <p className="text-white/50 font-mono text-sm">Contact section failed to load.</p>
+              <p className="text-[var(--color-text-muted)] font-mono text-sm">Contact section failed to load.</p>
             </section>
           }>
             <Contact />

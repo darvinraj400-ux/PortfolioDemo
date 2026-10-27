@@ -15,7 +15,6 @@ export default function Loader({ onComplete }: LoaderProps) {
   const hasCompleted = useRef(false);
 
   useEffect(() => {
-    // If reduced motion, skip loader entirely
     if (reducedMotion) {
       if (!hasCompleted.current) {
         hasCompleted.current = true;
@@ -24,7 +23,6 @@ export default function Loader({ onComplete }: LoaderProps) {
       return;
     }
 
-    // Safety timeout: force completion after 4 seconds no matter what
     const safetyTimeout = setTimeout(() => {
       if (!hasCompleted.current) {
         hasCompleted.current = true;
@@ -78,13 +76,13 @@ export default function Loader({ onComplete }: LoaderProps) {
     <AnimatePresence>
       {!isExiting && (
         <motion.div
-          className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center"
+          className="fixed inset-0 z-[100] bg-[var(--color-bg-primary)] flex flex-col items-center justify-center"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
           <motion.div
-            className="font-mono text-xs text-white/40 mb-8 tracking-wider"
+            className="font-mono text-xs text-[var(--color-text-muted)] mb-8 tracking-wider"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -93,7 +91,7 @@ export default function Loader({ onComplete }: LoaderProps) {
           </motion.div>
 
           {/* Progress bar */}
-          <div className="w-32 md:w-48 h-px bg-white/10 relative overflow-hidden">
+          <div className="w-32 md:w-48 h-px bg-[var(--color-border)] relative overflow-hidden">
             <motion.div
               className="absolute top-0 left-0 h-full bg-[var(--color-electric)]"
               style={{ width: `${Math.min(progress, 100)}%` }}
@@ -102,7 +100,7 @@ export default function Loader({ onComplete }: LoaderProps) {
           </div>
 
           <motion.span
-            className="font-mono text-[10px] text-white/20 mt-4"
+            className="font-mono text-[10px] text-[var(--color-text-muted)] mt-4"
             key={Math.floor(progress)}
           >
             {Math.min(Math.floor(progress), 100)}%

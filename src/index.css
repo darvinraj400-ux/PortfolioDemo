@@ -1,19 +1,21 @@
 @import "tailwindcss";
 
 /* ============================================
-   DESIGN TOKENS (with fallbacks)
+   DESIGN TOKENS - Light Theme
    ============================================ */
 :root {
-  /* Colors */
-  --color-electric: #0066ff;
-  --color-electric-light: #3388ff;
+  /* Colors - Warm cream palette */
+  --color-electric: #0055ff;
+  --color-electric-light: #3377ff;
   --color-electric-dark: #0044cc;
-  --color-surface: #0a0a0a;
-  --color-surface-elevated: #111111;
-  --color-border: #222222;
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #888888;
-  --color-text-muted: #555555;
+  --color-bg-primary: #f5f2ed;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #ebe8e3;
+  --color-text-primary: #0a0a0a;
+  --color-text-secondary: #555555;
+  --color-text-muted: #888888;
+  --color-border: #e5e2dc;
+  --color-border-light: #f0ede8;
 
   /* Fonts */
   --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
@@ -36,8 +38,8 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -56,31 +58,29 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #000;
+  background: var(--color-bg-primary);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--color-electric);
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
 /* ============================================
-   FOCUS STYLES (with fallback)
+   FOCUS STYLES
    ============================================ */
 :focus-visible {
   outline: 2px solid var(--color-electric);
   outline-offset: 2px;
 }
 
-/* Fallback for browsers that don't support :focus-visible */
 :focus {
   outline: 2px solid var(--color-electric);
   outline-offset: 2px;
 }
 
-/* Remove outline for mouse users */
 :focus:not(:focus-visible) {
   outline: none;
 }
@@ -160,7 +160,7 @@ body {
 }
 
 /* ============================================
-   GRAIN OVERLAY
+   GRAIN OVERLAY - Subtle for light theme
    ============================================ */
 .grain-overlay::after {
   content: '';
@@ -171,11 +171,11 @@ body {
   bottom: -50%;
   width: 200%;
   height: 200%;
-  background: transparent url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E") repeat;
+  background: transparent url("image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E") repeat;
   animation: grain 8s steps(10) infinite;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
 /* ============================================
@@ -191,7 +191,7 @@ body {
 }
 
 /* ============================================
-   PROJECT CARD HOVER (desktop only)
+   PROJECT CARD HOVER
    ============================================ */
 .project-card {
   -webkit-transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -208,23 +208,6 @@ body {
 }
 
 /* ============================================
-   ASYMMETRIC GRID HELPERS
-   ============================================ */
-.grid-asymmetric {
-  display: -ms-grid;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-}
-
-@media (min-width: 768px) {
-  .grid-asymmetric {
-    grid-template-columns: repeat(12, 1fr);
-    gap: 1.5rem;
-  }
-}
-
-/* ============================================
    TEXT UTILITIES
    ============================================ */
 .text-balance {
@@ -235,7 +218,6 @@ body {
   text-wrap: pretty;
 }
 
-/* Fallback for browsers that don't support text-wrap */
 @supports not (text-wrap: balance) {
   .text-balance {
     text-wrap: unset;
@@ -249,7 +231,7 @@ body {
 }
 
 /* ============================================
-   CUSTOM CURSOR (desktop only)
+   CUSTOM CURSOR
    ============================================ */
 @media (pointer: fine) {
   .custom-cursor-active {
@@ -258,7 +240,7 @@ body {
 }
 
 /* ============================================
-   CLIP PATHS (with fallback)
+   CLIP PATHS
    ============================================ */
 .clip-irregular-1 {
   -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%);
@@ -276,20 +258,20 @@ body {
 }
 
 /* ============================================
-   SAFE AREA PADDING (for notched devices)
+   SAFE AREA PADDING
    ============================================ */
 .safe-top {
   padding-top: env(safe-area-inset-top, 0px);
-  padding-top: constant(safe-area-inset-top, 0px); /* iOS 11.0-11.2 */
+  padding-top: constant(safe-area-inset-top, 0px);
 }
 
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  padding-bottom: constant(safe-area-inset-bottom, 0px); /* iOS 11.0-11.2 */
+  padding-bottom: constant(safe-area-inset-bottom, 0px);
 }
 
 /* ============================================
-   BACKDROP FILTER (with fallback)
+   BACKDROP FILTER
    ============================================ */
 @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   .backdrop-blur {
@@ -298,15 +280,14 @@ body {
   }
 }
 
-/* Fallback for browsers without backdrop-filter */
 @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   .backdrop-blur {
-    background-color: rgba(0, 0, 0, 0.95);
+    background-color: rgba(245, 242, 237, 0.95);
   }
 }
 
 /* ============================================
-   ASPECT RATIO (with fallback)
+   ASPECT RATIO
    ============================================ */
 @supports (aspect-ratio: 16 / 10) {
   .aspect-video-fallback {
@@ -314,12 +295,11 @@ body {
   }
 }
 
-/* Fallback for browsers without aspect-ratio */
 @supports not (aspect-ratio: 16 / 10) {
   .aspect-video-fallback {
     position: relative;
     height: 0;
-    padding-bottom: 62.5%; /* 10/16 = 0.625 */
+    padding-bottom: 62.5%;
   }
   .aspect-video-fallback > * {
     position: absolute;
@@ -331,7 +311,7 @@ body {
 }
 
 /* ============================================
-   MIX BLEND MODE (with fallback)
+   MIX BLEND MODE
    ============================================ */
 @supports (mix-blend-mode: difference) {
   .blend-difference {
@@ -341,24 +321,7 @@ body {
 
 @supports not (mix-blend-mode: difference) {
   .blend-difference {
-    /* Fallback: just use white cursor */
     filter: invert(1);
-  }
-}
-
-/* ============================================
-   GAP IN FLEXBOX (with fallback)
-   ============================================ */
-@supports (gap: 1rem) {
-  .flex-gap > * + * {
-    margin-left: 0;
-  }
-}
-
-/* Fallback for browsers without gap in flexbox */
-@supports not (gap: 1rem) {
-  .flex-gap > * + * {
-    margin-left: 0.5rem;
   }
 }
 
@@ -366,21 +329,18 @@ body {
    RESPONSIVE UTILITIES
    ============================================ */
 @media (max-width: 374px) {
-  /* Extra small screens */
   html {
     font-size: 14px;
   }
 }
 
 @media (min-width: 375px) and (max-width: 767px) {
-  /* Small mobile */
   html {
     font-size: 15px;
   }
 }
 
 @media (min-width: 768px) {
-  /* Tablet and up */
   html {
     font-size: 16px;
   }

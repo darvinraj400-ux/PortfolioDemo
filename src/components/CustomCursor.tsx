@@ -13,14 +13,11 @@ export default function CustomCursor() {
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    // Check for touch device
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     setIsTouchDevice(isTouch);
 
-    // Don't initialize cursor on touch devices or if reduced motion is preferred
     if (isTouch || reducedMotion) return;
 
-    // Check if pointer is fine (mouse)
     const mediaQuery = window.matchMedia('(pointer: fine)');
     if (!mediaQuery.matches) return;
 
@@ -70,17 +67,13 @@ export default function CustomCursor() {
     }
   }, [reducedMotion]);
 
-  // Don't render if touch device, reduced motion, or error occurred
   if (isTouchDevice || reducedMotion || hasError) return null;
 
   return (
     <>
       {/* Outer ring */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9998] mix-blend-difference"
-        style={{
-          mixBlendMode: 'difference',
-        }}
+        className="fixed top-0 left-0 pointer-events-none z-[9998]"
         animate={{
           x: position.x - (isHovering ? 24 : 16),
           y: position.y - (isHovering ? 24 : 16),
@@ -96,17 +89,14 @@ export default function CustomCursor() {
         }}
         aria-hidden="true"
       >
-        <div className={`w-full h-full rounded-full border transition-colors duration-200 ${
-          isHovering ? 'border-[var(--color-electric)]' : 'border-white/50'
+        <div className={`w-full h-full rounded-full border-2 transition-colors duration-200 ${
+          isHovering ? 'border-[var(--color-electric)]' : 'border-[var(--color-text-primary)]/40'
         }`} />
       </motion.div>
 
       {/* Inner dot */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9998] mix-blend-difference"
-        style={{
-          mixBlendMode: 'difference',
-        }}
+        className="fixed top-0 left-0 pointer-events-none z-[9998]"
         animate={{
           x: position.x - 2,
           y: position.y - 2,
@@ -120,7 +110,7 @@ export default function CustomCursor() {
         }}
         aria-hidden="true"
       >
-        <div className="w-1 h-1 rounded-full bg-white" />
+        <div className="w-1 h-1 rounded-full bg-[var(--color-electric)]" />
       </motion.div>
     </>
   );

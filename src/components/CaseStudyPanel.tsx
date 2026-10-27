@@ -10,7 +10,7 @@ export default function CaseStudyPanel({ project, reducedMotion }: CaseStudyPane
   return (
     <motion.div
       id={`case-study-${project.id}`}
-      className="mt-4 md:mt-6 border border-white/[0.06] rounded-sm overflow-hidden bg-[var(--color-surface)]"
+      className="mt-4 md:mt-6 border border-[var(--color-border)] rounded-sm overflow-hidden bg-[var(--color-bg-secondary)]"
       initial={reducedMotion ? {} : { opacity: 0, height: 0 }}
       animate={reducedMotion ? {} : { opacity: 1, height: 'auto' }}
       exit={reducedMotion ? {} : { opacity: 0, height: 0 }}
@@ -22,22 +22,22 @@ export default function CaseStudyPanel({ project, reducedMotion }: CaseStudyPane
         {/* Header info */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-2">Client</p>
-            <p className="text-sm text-white/70">{project.client}</p>
+            <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-2">Client</p>
+            <p className="text-sm text-[var(--color-text-secondary)]">{project.client}</p>
           </div>
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-2">Role</p>
-            <p className="text-sm text-white/70">{project.role}</p>
+            <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-2">Role</p>
+            <p className="text-sm text-[var(--color-text-secondary)]">{project.role}</p>
           </div>
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-2">Year</p>
-            <p className="text-sm text-white/70">{project.year}</p>
+            <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-2">Year</p>
+            <p className="text-sm text-[var(--color-text-secondary)]">{project.year}</p>
           </div>
         </div>
 
         {/* Description */}
         <div className="mb-8 md:mb-12">
-          <p className="text-lg md:text-xl lg:text-2xl font-light leading-relaxed text-white/80 text-pretty max-w-3xl">
+          <p className="text-lg md:text-xl lg:text-2xl font-light leading-relaxed text-[var(--color-text-primary)] text-pretty max-w-3xl">
             {project.description}
           </p>
         </div>
@@ -48,7 +48,7 @@ export default function CaseStudyPanel({ project, reducedMotion }: CaseStudyPane
             <h4 className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-electric)] mb-3">
               Challenge
             </h4>
-            <p className="text-sm md:text-base text-white/50 leading-relaxed text-pretty">
+            <p className="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed text-pretty">
               {project.challenge}
             </p>
           </div>
@@ -56,7 +56,7 @@ export default function CaseStudyPanel({ project, reducedMotion }: CaseStudyPane
             <h4 className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-electric)] mb-3">
               Solution
             </h4>
-            <p className="text-sm md:text-base text-white/50 leading-relaxed text-pretty">
+            <p className="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed text-pretty">
               {project.solution}
             </p>
           </div>
@@ -64,17 +64,17 @@ export default function CaseStudyPanel({ project, reducedMotion }: CaseStudyPane
 
         {/* Color palette */}
         <div className="mb-8 md:mb-12">
-          <h4 className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-3">
+          <h4 className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-3">
             Palette
           </h4>
-          <div className="flex gap-3">
+          <div className="flex gap-3 flex-wrap">
             {project.colors.map((color, i) => (
               <div key={i} className="flex items-center gap-2">
                 <div
-                  className="w-8 h-8 md:w-10 md:h-10 rounded-sm border border-white/10"
+                  className="w-8 h-8 md:w-10 md:h-10 rounded-sm border border-[var(--color-border)]"
                   style={{ backgroundColor: color }}
                 />
-                <span className="font-mono text-[9px] text-white/30 uppercase">{color}</span>
+                <span className="font-mono text-[9px] text-[var(--color-text-muted)] uppercase">{color}</span>
               </div>
             ))}
           </div>
@@ -82,20 +82,20 @@ export default function CaseStudyPanel({ project, reducedMotion }: CaseStudyPane
 
         {/* Results */}
         <div>
-          <h4 className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-4">
+          <h4 className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-4">
             Results
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {project.results.map((result, i) => (
               <motion.div
                 key={i}
-                className="flex items-start gap-3 p-3 md:p-4 bg-white/[0.02] rounded-sm border border-white/[0.04]"
+                className="flex items-start gap-3 p-3 md:p-4 bg-[var(--color-bg-primary)] rounded-sm border border-[var(--color-border)]"
                 initial={reducedMotion ? {} : { opacity: 0, x: -10 }}
                 animate={reducedMotion ? {} : { opacity: 1, x: 0 }}
                 transition={reducedMotion ? {} : { delay: 0.2 + i * 0.08, duration: 0.3 }}
               >
                 <span className="text-[var(--color-electric)] mt-0.5 text-xs">→</span>
-                <span className="text-xs md:text-sm text-white/60">{result}</span>
+                <span className="text-xs md:text-sm text-[var(--color-text-secondary)]">{result}</span>
               </motion.div>
             ))}
           </div>
