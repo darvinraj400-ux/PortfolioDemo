@@ -7,15 +7,39 @@ export default function BackToTop() {
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
+    // Check if addEventListener is available
+    if (typeof window === 'undefined' || !window.addEventListener) return;
+
     const handleScroll = () => {
       setIsVisible(window.scrollY > window.innerHeight * 0.5);
     };
+
+    // Use passive listener for better performance
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    // Initial check
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+    try {
+      // Check if smooth scroll is supported
+      if ('scrollBehavior' in document.documentElement.style && !reducedMotion) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Fallback for older browsers
+        window.scrollTo(0, 0);
+      }
+    } catch (error) {
+      console.warn('Scroll to top failed:', error);
+      // Last resort fallback
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
   };
 
   return (
@@ -24,6 +48,10 @@ export default function BackToTop() {
         <motion.button
           onClick={scrollToTop}
           className="fixed bottom-6 right-6 z-40 w-11 h-11 md:w-12 md:h-12 rounded-full border border-white/15 bg-black/80 backdrop-blur-sm flex items-center justify-center hover:border-[var(--color-electric)] transition-colors"
+          style={{
+            WebkitBackdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(8px)',
+          }}
           initial={reducedMotion ? {} : { opacity: 0, scale: 0.8 }}
           animate={reducedMotion ? {} : { opacity: 1, scale: 1 }}
           exit={reducedMotion ? {} : { opacity: 0, scale: 0.8 }}

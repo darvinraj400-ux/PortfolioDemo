@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
-@theme {
+/* ============================================
+   DESIGN TOKENS (with fallbacks)
+   ============================================ */
+:root {
+  /* Colors */
   --color-electric: #0066ff;
   --color-electric-light: #3388ff;
   --color-electric-dark: #0044cc;
@@ -10,18 +14,24 @@
   --color-text-primary: #ffffff;
   --color-text-secondary: #888888;
   --color-text-muted: #555555;
-  --font-sans: 'Space Grotesk', system-ui, sans-serif;
-  --font-mono: 'Space Mono', monospace;
+
+  /* Fonts */
+  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  --font-mono: 'Space Mono', 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Courier New', monospace;
 }
 
-/* Base styles */
+/* ============================================
+   BASE STYLES
+   ============================================ */
 * {
   -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
 
 body {
@@ -31,15 +41,20 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  line-height: 1.5;
 }
 
-/* Selection */
+/* ============================================
+   SELECTION & SCROLLBAR
+   ============================================ */
 ::selection {
   background: var(--color-electric);
   color: #ffffff;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
   width: 4px;
 }
@@ -51,23 +66,59 @@ body {
   border-radius: 2px;
 }
 
-/* Focus styles */
+/* ============================================
+   FOCUS STYLES (with fallback)
+   ============================================ */
 :focus-visible {
   outline: 2px solid var(--color-electric);
   outline-offset: 2px;
 }
 
-/* Reduced motion */
+/* Fallback for browsers that don't support :focus-visible */
+:focus {
+  outline: 2px solid var(--color-electric);
+  outline-offset: 2px;
+}
+
+/* Remove outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  .grain-overlay::after {
+    animation: none !important;
+    display: none;
+  }
+
+  .animate-marquee {
+    animation: none !important;
+  }
+
+  .animate-blink {
+    animation: none !important;
+  }
+
+  .animate-float {
+    animation: none !important;
+  }
 }
 
-/* Custom animations */
+/* ============================================
+   CUSTOM ANIMATIONS
+   ============================================ */
 @keyframes grain {
   0%, 100% { transform: translate(0, 0); }
   10% { transform: translate(-5%, -10%); }
@@ -108,7 +159,9 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
-/* Grain overlay */
+/* ============================================
+   GRAIN OVERLAY
+   ============================================ */
 .grain-overlay::after {
   content: '';
   position: fixed;
@@ -125,14 +178,40 @@ body {
   opacity: 0.4;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .grain-overlay::after {
-    animation: none;
+/* ============================================
+   MARQUEE
+   ============================================ */
+.marquee-track {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+/* ============================================
+   PROJECT CARD HOVER (desktop only)
+   ============================================ */
+.project-card {
+  -webkit-transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  -o-transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (pointer: fine) {
+  .project-card:hover {
+    -webkit-transform: translateY(-4px);
+    -ms-transform: translateY(-4px);
+    transform: translateY(-4px);
   }
 }
 
-/* Asymmetric grid helpers */
+/* ============================================
+   ASYMMETRIC GRID HELPERS
+   ============================================ */
 .grid-asymmetric {
+  display: -ms-grid;
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
@@ -145,7 +224,9 @@ body {
   }
 }
 
-/* Text utilities */
+/* ============================================
+   TEXT UTILITIES
+   ============================================ */
 .text-balance {
   text-wrap: balance;
 }
@@ -154,45 +235,170 @@ body {
   text-wrap: pretty;
 }
 
-/* Custom cursor */
+/* Fallback for browsers that don't support text-wrap */
+@supports not (text-wrap: balance) {
+  .text-balance {
+    text-wrap: unset;
+  }
+}
+
+@supports not (text-wrap: pretty) {
+  .text-pretty {
+    text-wrap: unset;
+  }
+}
+
+/* ============================================
+   CUSTOM CURSOR (desktop only)
+   ============================================ */
 @media (pointer: fine) {
   .custom-cursor-active {
     cursor: none;
   }
 }
 
-/* Project card hover effects */
-.project-card {
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@media (pointer: fine) {
-  .project-card:hover {
-    transform: translateY(-4px);
-  }
-}
-
-/* Marquee */
-.marquee-track {
-  display: flex;
-  width: max-content;
-}
-
-/* Clip paths for irregular crops */
+/* ============================================
+   CLIP PATHS (with fallback)
+   ============================================ */
 .clip-irregular-1 {
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%);
   clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%);
 }
+
 .clip-irregular-2 {
+  -webkit-clip-path: polygon(5% 0, 100% 0, 100% 100%, 0 100%, 0 15%);
   clip-path: polygon(5% 0, 100% 0, 100% 100%, 0 100%, 0 15%);
 }
+
 .clip-irregular-3 {
+  -webkit-clip-path: polygon(0 0, 95% 5%, 100% 100%, 5% 95%);
   clip-path: polygon(0 0, 95% 5%, 100% 100%, 5% 95%);
 }
 
-/* Safe area padding */
+/* ============================================
+   SAFE AREA PADDING (for notched devices)
+   ============================================ */
 .safe-top {
   padding-top: env(safe-area-inset-top, 0px);
+  padding-top: constant(safe-area-inset-top, 0px); /* iOS 11.0-11.2 */
 }
+
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: constant(safe-area-inset-bottom, 0px); /* iOS 11.0-11.2 */
+}
+
+/* ============================================
+   BACKDROP FILTER (with fallback)
+   ============================================ */
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .backdrop-blur {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .backdrop-blur {
+    background-color: rgba(0, 0, 0, 0.95);
+  }
+}
+
+/* ============================================
+   ASPECT RATIO (with fallback)
+   ============================================ */
+@supports (aspect-ratio: 16 / 10) {
+  .aspect-video-fallback {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* Fallback for browsers without aspect-ratio */
+@supports not (aspect-ratio: 16 / 10) {
+  .aspect-video-fallback {
+    position: relative;
+    height: 0;
+    padding-bottom: 62.5%; /* 10/16 = 0.625 */
+  }
+  .aspect-video-fallback > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* ============================================
+   MIX BLEND MODE (with fallback)
+   ============================================ */
+@supports (mix-blend-mode: difference) {
+  .blend-difference {
+    mix-blend-mode: difference;
+  }
+}
+
+@supports not (mix-blend-mode: difference) {
+  .blend-difference {
+    /* Fallback: just use white cursor */
+    filter: invert(1);
+  }
+}
+
+/* ============================================
+   GAP IN FLEXBOX (with fallback)
+   ============================================ */
+@supports (gap: 1rem) {
+  .flex-gap > * + * {
+    margin-left: 0;
+  }
+}
+
+/* Fallback for browsers without gap in flexbox */
+@supports not (gap: 1rem) {
+  .flex-gap > * + * {
+    margin-left: 0.5rem;
+  }
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+@media (max-width: 374px) {
+  /* Extra small screens */
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 767px) {
+  /* Small mobile */
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  /* Tablet and up */
+  html {
+    font-size: 16px;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .grain-overlay::after,
+  .animate-marquee,
+  .animate-blink,
+  .animate-float {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
 }

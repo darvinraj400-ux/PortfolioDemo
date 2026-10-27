@@ -120,9 +120,20 @@ export default function ProjectArchive() {
                   >
                     {/* Visual container */}
                     <div
-                      className="relative aspect-[4/3] md:aspect-[16/10] overflow-hidden rounded-sm mb-4 md:mb-6"
-                      style={getVisualStyle(project)}
+                      className="relative overflow-hidden rounded-sm mb-4 md:mb-6 aspect-video-fallback"
+                      style={{
+                        ...getVisualStyle(project),
+                        aspectRatio: '4 / 3',
+                      }}
                     >
+                      {/* Media query override for desktop aspect ratio */}
+                      <style>{`
+                        @media (min-width: 768px) {
+                          .aspect-video-fallback {
+                            aspect-ratio: 16 / 10 !important;
+                          }
+                        }
+                      `}</style>
                       {/* Abstract composition */}
                       <ProjectVisual project={project} index={index} reducedMotion={reducedMotion} />
                       

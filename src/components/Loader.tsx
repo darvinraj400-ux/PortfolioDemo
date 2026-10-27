@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
@@ -10,28 +10,66 @@ export default function Loader({ onComplete }: LoaderProps) {
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
   const reducedMotion = useReducedMotion();
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hasCompleted = useRef(false);
 
   useEffect(() => {
+    // If reduced motion, skip loader entirely
     if (reducedMotion) {
-      onComplete();
+      if (!hasCompleted.current) {
+        hasCompleted.current = true;
+        onComplete();
+      }
       return;
     }
 
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            setIsExiting(true);
-            setTimeout(onComplete, 600);
-          }, 300);
-          return 100;
-        }
-        return prev + Math.random() * 15 + 5;
-      });
-    }, 100);
+    // Safety timeout: force completion after 4 seconds no matter what
+    const safetyTimeout = setTimeout(() => {
+      if (!hasCompleted.current) {
+        hasCompleted.current = true;
+        setIsExiting(true);
+        setTimeout(() => {
+          onComplete();
+        }, 100);
+      }
+    }, 4000);
 
-    return () => clearInterval(interval);
+    try {
+      intervalRef.current = setInterval(() => {
+        setProgress(prev => {
+          const next = prev + Math.random() * 15 + 5;
+          if (next >= 100) {
+            if (intervalRef.current) {
+              clearInterval(intervalRef.current);
+            }
+            timeoutRef.current = setTimeout(() => {
+              if (!hasCompleted.current) {
+                hasCompleted.current = true;
+                setIsExiting(true);
+                setTimeout(() => {
+                  onComplete();
+                }, 600);
+              }
+            }, 300);
+            return 100;
+          }
+          return next;
+        });
+      }, 100);
+    } catch (error) {
+      console.warn('Loader error:', error);
+      if (!hasCompleted.current) {
+        hasCompleted.current = true;
+        onComplete();
+      }
+    }
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      clearTimeout(safetyTimeout);
+    };
   }, [onComplete, reducedMotion]);
 
   if (reducedMotion) return null;
@@ -41,6 +79,7 @@ export default function Loader({ onComplete }: LoaderProps) {
       {!isExiting && (
         <motion.div
           className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center"
+          initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >

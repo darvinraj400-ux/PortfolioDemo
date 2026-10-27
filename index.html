@@ -4,18 +4,82 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#000000" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="ALEX MORI — Multidisciplinary Designer. Experimental creative portfolio." />
     <title>ALEX MORI — Multidisciplinary Designer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <style>
-      html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; }
-      html { background-color: #000000; }
-      body { background-color: #000000; color: #ffffff; }
+      /* Critical CSS: ensures no flash of unstyled content */
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100vh;
+        background-color: #000000;
+        color: #ffffff;
+        font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* Noscript fallback */
+      .noscript-msg {
+        padding: 2rem;
+        text-align: center;
+        color: #ffffff;
+        font-family: monospace;
+      }
+      .noscript-msg a { color: #0066ff; }
     </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Fallback for slow-loading JS -->
+      <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;color:#fff;font-family:monospace;font-size:14px;">
+        <p>Loading portfolio…</p>
+      </div>
+    </div>
+    <noscript>
+      <div class="noscript-msg">
+        <h1>ALEX MORI — Multidisciplinary Designer</h1>
+        <p>This portfolio requires JavaScript to run. Please enable JavaScript in your browser settings or try a modern browser like <a href="https://www.google.com/chrome/">Chrome</a>, <a href="https://www.mozilla.org/firefox/">Firefox</a>, or <a href="https://www.apple.com/safari/">Safari</a>.</p>
+      </div>
+    </noscript>
+    <!-- Polyfills for older browsers -->
+    <script>
+      // IntersectionObserver polyfill check
+      if (!('IntersectionObserver' in window)) {
+        window.IntersectionObserver = function(cb) {
+          return { observe: function() {}, unobserve: function() {}, disconnect: function() {} };
+        };
+      }
+      // requestAnimationFrame polyfill
+      (function() {
+        var lastTime = 0;
+        var vendors = ['ms', 'moz', 'webkit', 'o'];
+        for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+          window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+          window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
+        }
+        if (!window.requestAnimationFrame) {
+          window.requestAnimationFrame = function(callback) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+          };
+        }
+        if (!window.cancelAnimationFrame) {
+          window.cancelAnimationFrame = function(id) { clearTimeout(id); };
+        }
+      })();
+      // Clipboard API fallback flag
+      if (!navigator.clipboard) {
+        window.__noClipboard = true;
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

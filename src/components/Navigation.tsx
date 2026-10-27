@@ -49,8 +49,12 @@ export default function Navigation({ onNavigate, activeSection }: NavigationProp
       {/* Top bar */}
       <motion.header
         className={`fixed top-0 left-0 right-0 z-50 safe-top transition-colors duration-300 ${
-          scrolled ? 'bg-black/80 backdrop-blur-md' : 'bg-transparent'
+          scrolled ? 'bg-black/90 backdrop-blur-md' : 'bg-transparent'
         }`}
+        style={{
+          WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
+          backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        }}
         initial={headerInitial}
         animate={headerAnimate}
         transition={headerTransition}

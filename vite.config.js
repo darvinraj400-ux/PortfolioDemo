@@ -12,4 +12,21 @@ export default defineConfig({
       port: 3000,
     },
   },
+  build: {
+    // Target broader browser support
+    target: "es2015",
+    // Generate CSS with vendor prefixes
+    cssTarget: "chrome61",
+    // Minify for smaller bundles
+    minify: "esbuild",
+    // Split chunks for better caching
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom"],
+          motion: ["motion"],
+        },
+      },
+    },
+  },
 });
