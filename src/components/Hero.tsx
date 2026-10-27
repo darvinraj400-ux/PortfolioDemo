@@ -14,11 +14,11 @@ export default function Hero() {
     >
       {/* Background grid lines */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-0 left-[15%] w-px h-full bg-white/[0.03]" />
-        <div className="absolute top-0 left-[45%] w-px h-full bg-white/[0.03]" />
-        <div className="absolute top-0 left-[75%] w-px h-full bg-white/[0.03]" />
-        <div className="absolute top-[30%] left-0 w-full h-px bg-white/[0.03]" />
-        <div className="absolute top-[60%] left-0 w-full h-px bg-white/[0.03]" />
+        <div className="absolute top-0 left-[15%] w-px h-full bg-[var(--color-text-primary)]/[0.05]" />
+        <div className="absolute top-0 left-[45%] w-px h-full bg-[var(--color-text-primary)]/[0.05]" />
+        <div className="absolute top-0 left-[75%] w-px h-full bg-[var(--color-text-primary)]/[0.05]" />
+        <div className="absolute top-[30%] left-0 w-full h-px bg-[var(--color-text-primary)]/[0.05]" />
+        <div className="absolute top-[60%] left-0 w-full h-px bg-[var(--color-text-primary)]/[0.05]" />
       </div>
 
       {/* Floating accent elements */}
@@ -29,7 +29,7 @@ export default function Hero() {
         aria-hidden="true"
       />
       <motion.div
-        className="absolute bottom-1/3 left-[8%] w-16 h-16 md:w-24 md:h-24 border border-[var(--color-electric)]/20 rotate-12"
+        className="absolute bottom-1/3 left-[8%] w-16 h-16 md:w-24 md:h-24 border border-[var(--color-electric)]/30 rotate-12"
         animate={reducedMotion ? {} : { rotate: [12, 15, 12] }}
         transition={reducedMotion ? {} : { duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden="true"
@@ -49,7 +49,7 @@ export default function Hero() {
         </motion.p>
 
         <motion.h1
-          className="text-[clamp(2.5rem,8vw,8rem)] font-light leading-[0.9] tracking-[-0.03em] mb-8 md:mb-12"
+          className="text-[clamp(2.5rem,8vw,8rem)] font-light leading-[0.9] tracking-[-0.03em] mb-8 md:mb-12 text-[var(--color-text-primary)]"
           initial={reducedMotion ? {} : { opacity: 0, y: 40 }}
           whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
@@ -60,7 +60,7 @@ export default function Hero() {
             the space
             <span className="text-[var(--color-electric)]"> between </span>
           </span>
-          <span className="block mt-1 md:mt-2 italic font-light text-white/60">
+          <span className="block mt-1 md:mt-2 italic font-light text-[var(--color-text-secondary)]">
             intention &amp; form
           </span>
         </motion.h1>
@@ -73,7 +73,7 @@ export default function Hero() {
           viewport={{ once: true, margin: '-50px' }}
           transition={reducedMotion ? { duration: 0 } : { duration, delay: 0.4, ease }}
         >
-          <p className="text-base md:text-lg text-white/50 leading-relaxed text-pretty">
+          <p className="text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed text-pretty">
             I work at the intersection of brand systems, digital products, and 
             spatial experiences. Every project is an opportunity to create something 
             that didn't exist before — to find the form that the idea was always 
@@ -95,7 +95,7 @@ export default function Hero() {
             transition={reducedMotion ? {} : { duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             aria-hidden="true"
           />
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-text-muted)]">
             Scroll to explore
           </span>
         </motion.div>
@@ -103,7 +103,7 @@ export default function Hero() {
 
       {/* Marquee */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 overflow-hidden border-t border-white/[0.05] py-3 md:py-4"
+        className="absolute bottom-0 left-0 right-0 overflow-hidden border-t border-[var(--color-border)] py-3 md:py-4"
         initial={reducedMotion ? {} : { opacity: 0 }}
         whileInView={reducedMotion ? {} : { opacity: 1 }}
         viewport={{ once: true }}
@@ -111,10 +111,10 @@ export default function Hero() {
         aria-hidden="true"
       >
         <div className="marquee-track animate-marquee">
-          <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/20 whitespace-nowrap px-8">
+          <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)] whitespace-nowrap px-8">
             Brand Identity — Digital Products — Art Direction — Spatial Design — Typography — Motion — Systems — Research — Brand Identity — Digital Products — Art Direction — Spatial Design — Typography — Motion — Systems — Research —&nbsp;
           </span>
-          <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/20 whitespace-nowrap px-8">
+          <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)] whitespace-nowrap px-8">
             Brand Identity — Digital Products — Art Direction — Spatial Design — Typography — Motion — Systems — Research — Brand Identity — Digital Products — Art Direction — Spatial Design — Typography — Motion — Systems — Research —&nbsp;
           </span>
         </div>

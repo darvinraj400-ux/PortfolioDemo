@@ -49,8 +49,12 @@ export default function Navigation({ onNavigate, activeSection }: NavigationProp
       {/* Top bar */}
       <motion.header
         className={`fixed top-0 left-0 right-0 z-50 safe-top transition-colors duration-300 ${
-          scrolled ? 'bg-black/80 backdrop-blur-md' : 'bg-transparent'
+          scrolled ? 'bg-[var(--color-bg-primary)]/90 backdrop-blur-md' : 'bg-transparent'
         }`}
+        style={{
+          WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
+          backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        }}
         initial={headerInitial}
         animate={headerAnimate}
         transition={headerTransition}
@@ -58,7 +62,7 @@ export default function Navigation({ onNavigate, activeSection }: NavigationProp
         <nav className="flex items-center justify-between px-5 md:px-8 lg:px-12 h-14 md:h-16">
           <button
             onClick={() => handleNavigate('hero')}
-            className="font-mono text-sm tracking-tight text-white hover:text-[var(--color-electric)] transition-colors min-h-[44px] min-w-[44px] flex items-center"
+            className="font-mono text-sm tracking-tight text-[var(--color-text-primary)] hover:text-[var(--color-electric)] transition-colors min-h-[44px] min-w-[44px] flex items-center"
             aria-label="Go to top"
           >
             AM<span className="text-[var(--color-electric)]">.</span>
@@ -73,7 +77,7 @@ export default function Navigation({ onNavigate, activeSection }: NavigationProp
                 className={`font-mono text-xs uppercase tracking-widest transition-colors min-h-[44px] flex items-center ${
                   activeSection === item.id
                     ? 'text-[var(--color-electric)]'
-                    : 'text-white/60 hover:text-white'
+                    : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]'
                 }`}
               >
                 {item.label}
@@ -89,13 +93,13 @@ export default function Navigation({ onNavigate, activeSection }: NavigationProp
             aria-expanded={isOpen}
           >
             <div className="relative w-6 h-5">
-              <span className={`absolute left-0 w-6 h-px bg-white transition-all duration-300 ${
+              <span className={`absolute left-0 w-6 h-px bg-[var(--color-text-primary)] transition-all duration-300 ${
                 isOpen ? 'top-2.5 rotate-45' : 'top-0'
               }`} />
-              <span className={`absolute left-0 top-2.5 w-6 h-px bg-white transition-all duration-300 ${
+              <span className={`absolute left-0 top-2.5 w-6 h-px bg-[var(--color-text-primary)] transition-all duration-300 ${
                 isOpen ? 'opacity-0 scale-0' : 'opacity-100'
               }`} />
-              <span className={`absolute left-0 w-6 h-px bg-white transition-all duration-300 ${
+              <span className={`absolute left-0 w-6 h-px bg-[var(--color-text-primary)] transition-all duration-300 ${
                 isOpen ? 'top-2.5 -rotate-45' : 'top-5'
               }`} />
             </div>
@@ -107,7 +111,7 @@ export default function Navigation({ onNavigate, activeSection }: NavigationProp
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 z-40 bg-black flex flex-col justify-center px-8 md:hidden"
+            className="fixed inset-0 z-40 bg-[var(--color-bg-primary)] flex flex-col justify-center px-8 md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -124,7 +128,7 @@ export default function Navigation({ onNavigate, activeSection }: NavigationProp
                   transition={{ delay: reducedMotion ? 0 : 0.1 + i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <span className="font-mono text-xs text-[var(--color-electric)] mr-4">0{i + 1}</span>
-                  <span className="text-4xl md:text-5xl font-light tracking-tight">
+                  <span className="text-4xl md:text-5xl font-light tracking-tight text-[var(--color-text-primary)]">
                     {item.label}
                   </span>
                 </motion.button>
@@ -137,7 +141,7 @@ export default function Navigation({ onNavigate, activeSection }: NavigationProp
               animate={reducedMotion ? {} : { opacity: 1 }}
               transition={{ delay: reducedMotion ? 0 : 0.5 }}
             >
-              <p className="font-mono text-xs text-white/40">
+              <p className="font-mono text-xs text-[var(--color-text-muted)]">
                 alex@alexmori.design
               </p>
             </motion.div>

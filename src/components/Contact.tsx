@@ -10,17 +10,34 @@ export default function Contact() {
 
   const handleCopyEmail = async () => {
     try {
-      await navigator.clipboard.writeText(email);
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        await navigator.clipboard.writeText(email);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = email;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        
+        try {
+          document.execCommand('copy');
+        } catch (err) {
+          console.warn('Copy failed:', err);
+          document.body.removeChild(textarea);
+          return;
+        }
+        
+        document.body.removeChild(textarea);
+      }
+      
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // Fallback for older browsers
-      const textarea = document.createElement('textarea');
-      textarea.value = email;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
+    } catch (error) {
+      console.warn('Copy email failed:', error);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
@@ -35,7 +52,7 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="px-5 md:px-8 lg:px-12 py-20 md:py-32 border-t border-white/[0.04]">
+    <section id="contact" className="px-5 md:px-8 lg:px-12 py-20 md:py-32 border-t border-[var(--color-border)]">
       <div className="max-w-[1400px] mx-auto">
         {/* Section label */}
         <motion.p
@@ -52,19 +69,19 @@ export default function Contact() {
           {/* CTA */}
           <div className="md:col-span-7 lg:col-span-6">
             <motion.h2
-              className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight mb-6 md:mb-8"
+              className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight mb-6 md:mb-8 text-[var(--color-text-primary)]"
               initial={reducedMotion ? {} : { opacity: 0, y: 30 }}
               whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={reducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               Let's make<br />
-              <span className="text-white/40">something</span><br />
+              <span className="text-[var(--color-text-muted)]">something</span><br />
               <span className="text-[var(--color-electric)]">together.</span>
             </motion.h2>
 
             <motion.p
-              className="text-base md:text-lg text-white/40 max-w-md mb-10 text-pretty"
+              className="text-base md:text-lg text-[var(--color-text-secondary)] max-w-md mb-10 text-pretty"
               initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
               whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
@@ -81,7 +98,7 @@ export default function Contact() {
               viewport={{ once: true, margin: '-80px' }}
               transition={reducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-3">
+              <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-3">
                 Email
               </p>
               <button
@@ -89,11 +106,11 @@ export default function Contact() {
                 className="group flex items-center gap-3 min-h-[44px]"
                 aria-label={`Copy email address: ${email}`}
               >
-                <span className="text-lg md:text-xl text-white/80 group-hover:text-[var(--color-electric)] transition-colors duration-300">
+                <span className="text-lg md:text-xl text-[var(--color-text-primary)] group-hover:text-[var(--color-electric)] transition-colors duration-300">
                   {email}
                 </span>
                 <motion.span
-                  className="font-mono text-[10px] text-white/30 group-hover:text-[var(--color-electric)] transition-colors"
+                  className="font-mono text-[10px] text-[var(--color-text-muted)] group-hover:text-[var(--color-electric)] transition-colors"
                   animate={reducedMotion ? {} : { opacity: copied ? 1 : [0.3, 0.6, 0.3] }}
                   transition={reducedMotion ? {} : { duration: 2, repeat: Infinity }}
                 >
@@ -111,7 +128,7 @@ export default function Contact() {
               viewport={{ once: true, margin: '-80px' }}
               transition={reducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-6">
+              <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-6">
                 Elsewhere
               </p>
               <nav className="space-y-1">
@@ -121,20 +138,20 @@ export default function Contact() {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between py-3 md:py-4 border-b border-white/[0.04] group min-h-[44px]"
+                    className="flex items-center justify-between py-3 md:py-4 border-b border-[var(--color-border-light)] group min-h-[44px]"
                     initial={reducedMotion ? {} : { opacity: 0, x: 10 }}
                     whileInView={reducedMotion ? {} : { opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={reducedMotion ? { duration: 0 } : { delay: 0.5 + i * 0.06, duration: 0.3 }}
                   >
-                    <span className="text-sm text-white/50 group-hover:text-white transition-colors duration-200">
+                    <span className="text-sm text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors duration-200">
                       {link.name}
                     </span>
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-[10px] text-white/20 group-hover:text-white/40 transition-colors">
+                      <span className="font-mono text-[10px] text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)] transition-colors">
                         {link.handle}
                       </span>
-                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="text-white/20 group-hover:text-[var(--color-electric)] transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="text-[var(--color-text-muted)] group-hover:text-[var(--color-electric)] transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                         <path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" strokeWidth="1.2" />
                       </svg>
                     </div>
@@ -145,19 +162,19 @@ export default function Contact() {
 
             {/* Availability */}
             <motion.div
-              className="mt-10 md:mt-14 p-4 md:p-6 border border-white/[0.06] rounded-sm"
+              className="mt-10 md:mt-14 p-4 md:p-6 border border-[var(--color-border)] rounded-sm bg-[var(--color-bg-secondary)]"
               initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
               whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={reducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="font-mono text-[10px] uppercase tracking-wider text-white/40">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)]">
                   Available for projects
                 </span>
               </div>
-              <p className="text-sm text-white/40">
+              <p className="text-sm text-[var(--color-text-secondary)]">
                 Currently booking Q2–Q3 2025. Minimum engagement: 4 weeks.
               </p>
             </motion.div>
@@ -166,16 +183,16 @@ export default function Contact() {
 
         {/* Footer */}
         <motion.footer
-          className="mt-24 md:mt-32 pt-8 border-t border-white/[0.04] flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+          className="mt-24 md:mt-32 pt-8 border-t border-[var(--color-border)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
           initial={reducedMotion ? {} : { opacity: 0 }}
           whileInView={reducedMotion ? {} : { opacity: 1 }}
           viewport={{ once: true }}
           transition={reducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.7 }}
         >
-          <p className="font-mono text-[10px] text-white/20">
+          <p className="font-mono text-[10px] text-[var(--color-text-muted)]">
             © 2024 Alex Mori. All rights reserved.
           </p>
-          <p className="font-mono text-[10px] text-white/20">
+          <p className="font-mono text-[10px] text-[var(--color-text-muted)]">
             Designed & developed with intention.
           </p>
         </motion.footer>

@@ -18,18 +18,18 @@ export default function SectionDivider({ label, number }: SectionDividerProps) {
       transition={reducedMotion ? { duration: 0 } : { duration: 0.6 }}
     >
       <div className="max-w-[1400px] mx-auto flex items-center gap-4">
-        <div className="flex-1 h-px bg-white/[0.04]" />
+        <div className="flex-1 h-px bg-[var(--color-border)]" />
         {number && (
-          <span className="font-mono text-[9px] text-white/15 tracking-wider">
+          <span className="font-mono text-[9px] text-[var(--color-text-muted)]/50 tracking-wider">
             {number}
           </span>
         )}
         {label && (
-          <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/15">
+          <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--color-text-muted)]/50">
             {label}
           </span>
         )}
-        <div className="flex-1 h-px bg-white/[0.04]" />
+        <div className="flex-1 h-px bg-[var(--color-border)]" />
       </div>
     </motion.div>
   );

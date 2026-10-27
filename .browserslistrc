@@ -1,0 +1,22 @@
+# Browser support targets
+# This ensures the build produces code compatible with these browsers
+
+# Major browsers - last 2 versions
+last 2 Chrome versions
+last 2 Firefox versions
+last 2 Safari versions
+last 2 Edge versions
+
+# Support older versions that are still widely used
+Chrome >= 80
+Firefox >= 78
+Safari >= 13
+Edge >= 80
+iOS >= 13
+Android >= 80
+
+# Don't support dead browsers
+not IE 11
+not IE_Mob 11
+not op_mini all
+not kaios >= 0

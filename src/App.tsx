@@ -8,6 +8,7 @@ import CustomCursor from './components/CustomCursor';
 import Loader from './components/Loader';
 import BackToTop from './components/BackToTop';
 import SectionDivider from './components/SectionDivider';
+import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('hero');
@@ -17,9 +18,12 @@ export default function App() {
     setIsLoaded(true);
   }, []);
 
-  // Track active section based on scroll position
   useEffect(() => {
     if (!isLoaded) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      return;
+    }
 
     const sections = ['hero', 'work', 'about', 'contact'];
     
@@ -45,34 +49,86 @@ export default function App() {
   const handleNavigate = useCallback((section: string) => {
     const el = document.getElementById(section);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if ('scrollBehavior' in document.documentElement.style) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        el.scrollIntoView(true);
+      }
     }
   }, []);
 
   return (
-    <div className="grain-overlay relative min-h-screen bg-black text-white">
-      {/* Loading screen */}
-      {!isLoaded && <Loader onComplete={handleLoadComplete} />}
+    <ErrorBoundary>
+      <div className="grain-overlay relative min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]">
+        {/* Loading screen */}
+        {!isLoaded && <Loader onComplete={handleLoadComplete} />}
 
-      {/* Custom cursor - desktop only */}
-      <CustomCursor />
+        {/* Custom cursor */}
+        <ErrorBoundary fallback={null}>
+          <CustomCursor />
+        </ErrorBoundary>
 
-      {/* Navigation */}
-      <Navigation onNavigate={handleNavigate} activeSection={activeSection} />
+        {/* Navigation */}
+        <ErrorBoundary fallback={
+          <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg-primary)] px-5 py-4">
+            <span className="font-mono text-sm text-[var(--color-text-primary)]">AM.</span>
+          </nav>
+        }>
+          <Navigation onNavigate={handleNavigate} activeSection={activeSection} />
+        </ErrorBoundary>
 
-      {/* Main content */}
-      <main className={isLoaded ? 'opacity-100' : 'opacity-0'} style={{ transition: 'opacity 0.5s ease' }}>
-        <Hero />
-        <SectionDivider label="Selected Projects" number="001" />
-        <ProjectArchive />
-        <SectionDivider label="Biography" number="002" />
-        <About />
-        <SectionDivider label="Get in Touch" number="003" />
-        <Contact />
-      </main>
+        {/* Main content */}
+        <main 
+          className={isLoaded ? 'opacity-100' : 'opacity-0'} 
+          style={{ 
+            transition: 'opacity 0.5s ease',
+            WebkitTransition: 'opacity 0.5s ease',
+          }}
+        >
+          <ErrorBoundary fallback={
+            <section className="min-h-screen flex items-center justify-center px-5">
+              <p className="text-[var(--color-text-muted)] font-mono text-sm">Content failed to load. Please refresh.</p>
+            </section>
+          }>
+            <Hero />
+          </ErrorBoundary>
+          
+          <SectionDivider label="Selected Projects" number="001" />
+          
+          <ErrorBoundary fallback={
+            <section className="px-5 py-20">
+              <p className="text-[var(--color-text-muted)] font-mono text-sm">Projects failed to load.</p>
+            </section>
+          }>
+            <ProjectArchive />
+          </ErrorBoundary>
+          
+          <SectionDivider label="Biography" number="002" />
+          
+          <ErrorBoundary fallback={
+            <section className="px-5 py-20">
+              <p className="text-[var(--color-text-muted)] font-mono text-sm">About section failed to load.</p>
+            </section>
+          }>
+            <About />
+          </ErrorBoundary>
+          
+          <SectionDivider label="Get in Touch" number="003" />
+          
+          <ErrorBoundary fallback={
+            <section className="px-5 py-20">
+              <p className="text-[var(--color-text-muted)] font-mono text-sm">Contact section failed to load.</p>
+            </section>
+          }>
+            <Contact />
+          </ErrorBoundary>
+        </main>
 
-      {/* Back to top */}
-      <BackToTop />
-    </div>
+        {/* Back to top */}
+        <ErrorBoundary fallback={null}>
+          <BackToTop />
+        </ErrorBoundary>
+      </div>
+    </ErrorBoundary>
   );
 }

@@ -319,6 +319,94 @@ Before deploying, verify:
 
 ---
 
+## 🔧 Browser Compatibility
+
+This portfolio is designed to work across a wide range of browsers and devices. Several compatibility layers have been implemented to ensure consistent behavior:
+
+### Supported Browsers
+
+- **Chrome/Edge** ≥ 80
+- **Firefox** ≥ 78
+- **Safari** ≥ 13
+- **iOS Safari** ≥ 13
+- **Android Chrome** ≥ 80
+
+### Compatibility Fixes Implemented
+
+#### 1. **CSS Fallbacks**
+
+- **`aspect-ratio`** → Padding-bottom fallback for older browsers
+- **`backdrop-filter`** → `-webkit-` prefix + solid background fallback
+- **`clamp()`** → Fixed-size fallbacks in critical paths
+- **`:focus-visible`** → `:focus` fallback for older browsers
+- **`gap` in flexbox** → Margin-based fallback
+- **`mix-blend-mode`** → Invert filter fallback
+- **`text-wrap`** → Unset fallback for browsers without support
+- **Safe area insets** → `constant()` fallback for iOS 11.0-11.2
+
+#### 2. **JavaScript Polyfills**
+
+- **`IntersectionObserver`** → Stub implementation for very old browsers
+- **`requestAnimationFrame`** → Vendor prefix fallback + setTimeout fallback
+- **`navigator.clipboard`** → `document.execCommand('copy')` fallback
+- **`matchMedia`** → Legacy `addListener`/`removeListener` for Safari < 14
+
+#### 3. **Error Boundaries**
+
+- **Component-level error boundaries** → Individual sections can fail without breaking the entire app
+- **Global error handler** → Catches uncaught errors and promise rejections
+- **Graceful degradation** → Shows user-friendly error messages with refresh button
+- **Browser support check** → Detects very old browsers and shows appropriate message
+
+#### 4. **Robust Loading**
+
+- **Safety timeout** → Loader auto-completes after 4 seconds even if animation fails
+- **Error handling** → Loader catches errors and still calls `onComplete()`
+- **Cleanup** → All intervals and timeouts properly cleared on unmount
+
+#### 5. **Build Configuration**
+
+- **Browser targets** → `.browserslistrc` ensures proper transpilation
+- **Chunk splitting** → Vendor and motion libraries split for better caching
+- **CSS target** → Set to `chrome61` for broader CSS feature support
+- **ES2015 target** → Ensures compatibility with older JavaScript engines
+
+#### 6. **Touch & Mobile Optimizations**
+
+- **Touch detection** → Custom cursor disabled on touch devices
+- **Passive event listeners** → Better scroll performance
+- **Safe area support** → Proper padding for notched devices
+- **Viewport meta** → `viewport-fit=cover` for full-screen support
+
+### Known Limitations
+
+- **Very old browsers** (IE11, Safari < 13) → Show "Browser Not Supported" message
+- **Reduced motion** → All animations disabled when OS setting is enabled
+- **Custom cursor** → Only works on desktop with fine pointer (mouse)
+- **Grain overlay** → Disabled when reduced motion is preferred
+
+### Troubleshooting
+
+If the portfolio doesn't load on some PCs but works on others:
+
+1. **Check browser version** → Ensure it meets minimum requirements above
+2. **Clear cache** → Old cached files may conflict with new builds
+3. **Disable extensions** → Ad blockers or privacy extensions can interfere
+4. **Check console** → Open DevTools (F12) to see error messages
+5. **Try incognito mode** → Rules out extension conflicts
+6. **Update graphics drivers** → Some animation issues stem from outdated GPU drivers
+7. **Check RAM/CPU** → Low-end devices may struggle with heavy animations
+
+### Performance Tips for Low-End Devices
+
+- Animations automatically simplify when `prefers-reduced-motion` is enabled
+- Custom cursor is disabled on touch devices and low-end hardware
+- Grain overlay can be disabled via reduced motion preference
+- Chunk splitting ensures faster initial load
+- Passive event listeners improve scroll performance
+
+---
+
 ## 📄 License
 
 This project is provided as-is for educational and portfolio purposes. The fictional project data, client names, and designer identity are entirely fictional.

@@ -6,7 +6,7 @@ export default function About() {
   const reducedMotion = useReducedMotion();
 
   return (
-    <section id="about" className="px-5 md:px-8 lg:px-12 py-20 md:py-32 border-t border-white/[0.04]">
+    <section id="about" className="px-5 md:px-8 lg:px-12 py-20 md:py-32 border-t border-[var(--color-border)]">
       <div className="max-w-[1400px] mx-auto">
         {/* Section label */}
         <motion.p
@@ -23,7 +23,7 @@ export default function About() {
           {/* Bio column */}
           <div className="md:col-span-7 lg:col-span-6">
             <motion.h2
-              className="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight mb-8 md:mb-12"
+              className="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight mb-8 md:mb-12 text-[var(--color-text-primary)]"
               initial={reducedMotion ? {} : { opacity: 0, y: 30 }}
               whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
@@ -33,7 +33,7 @@ export default function About() {
             </motion.h2>
 
             <motion.div
-              className="space-y-6 text-base md:text-lg text-white/50 leading-relaxed text-pretty"
+              className="space-y-6 text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed text-pretty"
               initial={reducedMotion ? {} : { opacity: 0, y: 30 }}
               whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
@@ -66,20 +66,20 @@ export default function About() {
               transition={reducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-2">Based</p>
-                <p className="text-sm text-white/70">Berlin / Tokyo</p>
+                <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-2">Based</p>
+                <p className="text-sm text-[var(--color-text-secondary)]">Berlin / Tokyo</p>
               </div>
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-2">Available</p>
-                <p className="text-sm text-white/70">Select projects, 2025</p>
+                <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-2">Available</p>
+                <p className="text-sm text-[var(--color-text-secondary)]">Select projects, 2025</p>
               </div>
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-2">Focus</p>
-                <p className="text-sm text-white/70">Systems, Products, Space</p>
+                <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-2">Focus</p>
+                <p className="text-sm text-[var(--color-text-secondary)]">Systems, Products, Space</p>
               </div>
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-2">Education</p>
-                <p className="text-sm text-white/70">RCA, London — MA Design</p>
+                <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-2">Education</p>
+                <p className="text-sm text-[var(--color-text-secondary)]">RCA, London — MA Design</p>
               </div>
             </motion.div>
           </div>
@@ -94,20 +94,20 @@ export default function About() {
               viewport={{ once: true, margin: '-80px' }}
               transition={reducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h3 className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-6">
+              <h3 className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-6">
                 Selected Clients
               </h3>
               <div className="grid grid-cols-2 gap-x-4 gap-y-3">
                 {clients.map((client, i) => (
                   <motion.div
                     key={client}
-                    className="py-2 border-b border-white/[0.04]"
+                    className="py-2 border-b border-[var(--color-border-light)]"
                     initial={reducedMotion ? {} : { opacity: 0, x: 10 }}
                     whileInView={reducedMotion ? {} : { opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={reducedMotion ? { duration: 0 } : { delay: 0.4 + i * 0.04, duration: 0.3 }}
                   >
-                    <span className="text-sm text-white/50 hover:text-white transition-colors duration-200">
+                    <span className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors duration-200">
                       {client}
                     </span>
                   </motion.div>
@@ -122,21 +122,21 @@ export default function About() {
               viewport={{ once: true, margin: '-80px' }}
               transition={reducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h3 className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-6">
+              <h3 className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-6">
                 Collaborators
               </h3>
               <div className="space-y-3">
                 {collaborators.map((collab, i) => (
                   <motion.div
                     key={collab.name}
-                    className="flex items-center justify-between py-2 border-b border-white/[0.04]"
+                    className="flex items-center justify-between py-2 border-b border-[var(--color-border-light)]"
                     initial={reducedMotion ? {} : { opacity: 0, x: 10 }}
                     whileInView={reducedMotion ? {} : { opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={reducedMotion ? { duration: 0 } : { delay: 0.5 + i * 0.05, duration: 0.3 }}
                   >
-                    <span className="text-sm text-white/50">{collab.name}</span>
-                    <span className="font-mono text-[10px] text-white/25">{collab.role}</span>
+                    <span className="text-sm text-[var(--color-text-secondary)]">{collab.name}</span>
+                    <span className="font-mono text-[10px] text-[var(--color-text-muted)]">{collab.role}</span>
                   </motion.div>
                 ))}
               </div>
@@ -150,10 +150,10 @@ export default function About() {
               viewport={{ once: true, margin: '-80px' }}
               transition={reducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h3 className="font-mono text-[10px] uppercase tracking-wider text-white/30 mb-6">
+              <h3 className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-6">
                 Recognition
               </h3>
-              <div className="space-y-2 text-sm text-white/40">
+              <div className="space-y-2 text-sm text-[var(--color-text-secondary)]">
                 <p>Awwwards — Site of the Day × 3</p>
                 <p>D&AD — Wood Pencil, Digital Design</p>
                 <p>Type Directors Club — Certificate of Excellence</p>
